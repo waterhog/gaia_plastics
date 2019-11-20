@@ -14,7 +14,7 @@ We have designed this project so that it is affordable, (relatively) easy to set
 
 **Authors**
 
-This project was created by graduate students at the University of Washington: Cici Dai, Peiling Li, Thomas Wang, and Geoffrey Waterhouse, and was sponsored by Microsoft AI for Earth
+This project was created by graduate students at the University of Washington: Cici Dai, Peiling Li, Thomas Wang, and Geoffrey Waterhouse, and was sponsored by Microsoft AI for Earth.
 
 ## Requirements
 This project uses the following components.
