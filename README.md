@@ -13,6 +13,7 @@ The goal of the project is to provide near-real-time data about plastics in rive
 We have designed this project so that it is affordable, (relatively) easy to set up, and low maintainence, because we want to engage citizen scientists, teachers, students, anyone with interest. But, any individual or organization can build a device and start collecting data. Our project is under a General Public License (see below for more information).
 
 **Authors**
+
 This project was created by graduate students at the University of Washington: Cici Dai, Peiling Li, Thomas Wang, and Geoffrey Waterhouse, and was sponsored by Microsoft AI for Earth
 
 ## Requirements
