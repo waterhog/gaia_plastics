@@ -1,5 +1,5 @@
 # Gaia Plastics Project
-This README provides a brief project overview. Please go to our [wiki](https://github.com/waterhog/gaia_plastics/wiki) if you want more in-depth information about the project and how to set up a device.
+This README provides a brief project overview. Please go to our [wiki](https://github.com/waterhog/gaia_plastics/wiki) if you want more in-depth information about the technical side of the project and how to set up a device.
 
 ## Introduction
 The Gaia Plastics Project is an IoT project for counting plastic objects floating on the surface of rivers. The project uses a simple hardware setup including a camera, and a computer vision model to detect plastics objects. Every 15 minutes, a plastic count for that period is sent from the device to the cloud. This data can be queried from a mobile phone. In the future, we plan to add a front-end that will use a map to display near-real-time plastic counts from all devices.
@@ -26,7 +26,7 @@ This project uses the following components.
 - **case**
 
 ### Software
-The software used is all found under the **app** folder in this repository. The project also uses Azure SQL Database to store data, but this is already set up so users don't need to consider this.
+The software used is all found under the **app** folder in this repository. The project also usessome Azure services like Azure SQL Database to store data, but this is already set up so users don't need to consider this.
 
 ## Setup Guide
 Go to [Hardware Setup](https://github.com/waterhog/gaia_plastics/wiki/Hardware-Setup) to begin.
