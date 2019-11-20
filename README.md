@@ -6,7 +6,7 @@ The Gaia Plastics Project is an IoT project for counting plastic objects floatin
 
 **Goal of the project**
 
-The goal of the project is to provide near-real-time data about plastics in rivers. We know that plastic washed into the ocean from rivers is a major source of ocean plastic; **around 90% of the plastic in the ocean come from only 9 or 10 major rivers** **citation needed**. Despite this, **there is a severe lack of data about plastics in rivers**. Without data, it is difficult to take action. We hope this data can be used to organize cleanups, help businesses and local government agencies to handle their waste, and perhaps even help drive regulation. 
+The goal of the project is to provide near-real-time data about plastics in rivers. We know that plastic washed into the ocean from rivers is a major source of ocean plastic; **around 90% of the plastic in the ocean come from only 9 or 10 major rivers** **citation needed**. Despite this, **there is a severe lack of data about plastics in rivers**. Without data, it is difficult to take action. We hope this data can be used to organize cleanups, help businesses and local government agencies to handle their waste, and even help drive regulation. 
 
 ## Requirements
 
