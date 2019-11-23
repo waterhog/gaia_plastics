@@ -20,27 +20,26 @@ def CalcRatio(box1, box2, type = 'overlap'):
 
 
 class countPlastic:
-    def __init__(self, capacity=4, buffer=0, IoU = 0.8, overlap = 0.3):
+    def __init__(self, capacity=4, buffer=0, IoU=0.8, overlap=0.3, color_ratio = 0.05):
         # backSub, tracking, and finish region factors
         self.bs_factor = 0.7
         self.tk_factor = 0.55
         self.interval_factor = self.bs_factor - self.tk_factor
         self.finish_factor = 0.85
-        # background subtraction object
-        self.backSub = cv2.createBackgroundSubtractorMOG2()
-        # tracker object
-        self.tracker = cv2.MultiTracker_create()
-        # result - count since initiation of model
-        # count - count since initiation of tracker object
-        self.result = 0
-        self.count = 0
+
+        self.backSub = cv2.createBackgroundSubtractorMOG2()     # background subtraction object
+        self.tracker = cv2.MultiTracker_create()                # tracker object
+        self.result = 0     # count since initiation of model
+        self.count = 0      # count since initiation of tracker object
         # frame width and height
         self.fw = 0
         self.fh = 0
-        self.capacity = capacity
-        self.buffer = buffer
+
+        self.capacity = capacity    # total number of objects in tracking zone
+        self.buffer = buffer        # number of objects to hold in finish zone
         self.IoU = IoU
         self.overlap = overlap
+        self.color_ratio = color_ratio
 
     def update(self, frame):
         if frame is None:
@@ -77,15 +76,14 @@ class countPlastic:
             # do not include extra long object
             if h > 0.5*self.fh:
                 continue
-
-            # only include boxes in Interval area, when box right corner pass interval area
+            # Include boxes in Interval area when box right corner pass interval area
             if (x+w) > self.bs_factor * self.fw:
                 object_list = self.tracker.getObjects()
                 # convert x to tracker region coordinates
                 x0 = x
                 x = int(x - self.tk_factor * self.fw)
 
-                # for objects wider than Interval area, do not add
+                # do not add objects until the left corners are in interval zone
                 if x < 0:
                     continue
                 
@@ -93,15 +91,9 @@ class countPlastic:
                 cropped = frame[y:y+h, x0:x0+w]
                 mask, ratio = self.color_detection(cropped)
 
-                # if color detected is < 10% of bounding area, assume no plastic is detected
-                if ratio < 0.05:
+                # if color detected is < threshold, assume the object is not plastic
+                if ratio < self.color_ratio:
                     continue
-                # print("ratio: ")
-                # print(ratio)
-
-                # output = cv2.bitwise_and(cropped, cropped, mask=mask)
-                # cv2.imshow("output", output)
-                # cv2.waitKey(0)
 
                 # Assume when two bounding boxes overlaps > iou limit, they are tracking the same object
                 if not self.isOverlapped((x, y, w, h), object_list):
@@ -113,7 +105,8 @@ class countPlastic:
         # update tracking model
         _, boxes = self.tracker.update(tk_frame)
 
-        # count target in finish zone
+        # findUniqueObhects will not do anything when finish zone buffer is set to 0
+        # count unique target in finish zone in case of multiple bounding box on one object
         self.findUniqueObjects(self.tracker.getObjects())
 
         # remove boxes caused by random moving object
@@ -134,9 +127,9 @@ class countPlastic:
         if len(self.tracker.getObjects()) > self.capacity or self.count > self.buffer:
             curr_objects = self.tracker.getObjects()
             self.tracker = cv2.MultiTracker_create()
+            # all bounding boxes are in tracking zone
+            # take out the box that is closest to finish zone and add to result
             if self.count == 0:
-                # all bounding boxes are in tracking zone
-                # take out the box that is closest to finish zone and add to result
                 points = []
                 for box in curr_objects:
                     points += [box[0] + box[2]]
@@ -150,7 +143,7 @@ class countPlastic:
             else:
                 for box in curr_objects:
                     (x, y, w, h) = box
-                    # only include bounding box not in finish line
+                    # only keep bounding box not in finish line
                     if x+w < (self.finish_factor - self.tk_factor) * self.fw:
                         _ = self.tracker.add(cv2.TrackerMIL_create(), tk_frame, (x, y, w, h))
                 self.count = 0
