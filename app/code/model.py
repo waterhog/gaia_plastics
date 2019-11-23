@@ -20,7 +20,7 @@ def CalcRatio(box1, box2, type = 'overlap'):
 
 
 class countPlastic:
-    def __init__(self, capacity=4, buffer=0, IoU=0.8, overlap=0.3, color_ratio = 0.05):
+    def __init__(self, capacity=4, buffer=0, IoU=0.8, overlap=0.3, color_ratio=0.05, minArea=100):
         # backSub, tracking, and finish region factors
         self.bs_factor = 0.7
         self.tk_factor = 0.55
@@ -40,6 +40,7 @@ class countPlastic:
         self.IoU = IoU
         self.overlap = overlap
         self.color_ratio = color_ratio
+        self.minArea = minArea
 
     def update(self, frame):
         if frame is None:
@@ -69,7 +70,7 @@ class countPlastic:
             newbox = cv2.boundingRect(contour)
 
             # ignore contour area < 900
-            if cv2.contourArea(contour) < 100:
+            if cv2.contourArea(contour) < self.minArea:
                 continue
 
             (x, y, w, h) = newbox
