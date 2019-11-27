@@ -18,8 +18,6 @@ s.flushInput()
 #s = setup_lte_connection()
 
 ## SMS
-default_number = "+13605507462"
-default_message = "hi"
 
 def check_sms_mode():
         send_command("AT+CMGF?\r\n")
@@ -65,7 +63,7 @@ def get_gps_loc():
                 return None
         return lat + "," + lon
 
-def send_sms(number=default_number, message=default_message):
+def send_sms(number, message):
         c = "AT+CMGS=\"" + number + "\"\r"
         send_command(c)
         send_command(message)
