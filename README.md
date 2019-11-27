@@ -22,8 +22,8 @@ This project uses the following components.
 - Raspberry Pi 4 4G
 - SIM7000X
 - Wide-angle camera for RPi/Arduino projects
-- **battery**
-- **case**
+- Powerbank
+- Pelican case
 
 ### Software
 The software used is all found under the **app** folder in this repository. The project also usessome Azure services like Azure SQL Database to store data, but this is already set up so users don't need to consider this.
