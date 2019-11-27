@@ -1,9 +1,5 @@
 #!/bin/bash
 
-echo "Cloning project from github..."
-
-git clone https://github.com/waterhog/gaia_plastics /home/pi/gaia_plastics
-
 echo "Installing dependencies (this may take some time)..."
 
 sudo apt-get update
