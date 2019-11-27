@@ -9,6 +9,18 @@ s.flushInput()
 
 #TODO move send_command out of SMS section
 
+#def setup_lte_connection():#
+#       s = serial.Serial("/dev/ttyS0", 115200)
+#       s.flushInput()
+#       send_command("ATE0\r\n")
+#       return s
+
+#s = setup_lte_connection()
+
+## SMS
+default_number = "+13605507462"
+default_message = "hi"
+
 def check_sms_mode():
         send_command("AT+CMGF?\r\n")
 

@@ -1,8 +1,8 @@
 {
     "device": {
         "id": "",
-        "latlon_method": "",
-        "latlon": ",",
+        "latlon_method": "WIFI",
+        "latlon": "0,0",
         "location_name": "",
         "frame_rate": 32,
         "frame_width": 640,

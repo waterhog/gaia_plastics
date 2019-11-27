@@ -47,53 +47,76 @@ sm = SaveManager()
 ######### MAIN LOOP #########
 
 
+#import os
+#file = 30
+
+
+#fourcc = cv2.VideoWriter_fourcc(*'XVID')
+
+#FILE_OUTPUT = 'output'+str(file)+'.avi'
+#if os.path.isfile(FILE_OUTPUT):
+#    os.remove(FILE_OUTPUT)
+#out = cv2.VideoWriter(FILE_OUTPUT, fourcc, 20.0, (int(device["frame_width"]), int(device["frame_height"])))
+#current = 0
+
 def get_mode():
-	current_time = datetime.now()
-	current_time = (current_time.hour * 100) + current_time.minute
-	if current_time >= prediction_start and current_time <= prediction_stop:
-		return True
-	else:
-		return False
+    current_time = datetime.now()
+    current_time = (current_time.hour * 100) + current_time.minute
+    if current_time >= prediction_start and current_time <= prediction_stop:
+        return True
+    else:
+        return False
 
 
 while(True):
-		# run prediction only if within predetermined timeframe
-		mode = get_mode()
-		if mode == True:
-			time_keeper = time.time()
-			# load camera settings
-			camera = cv2.VideoCapture(0)
-			camera.set(5, device["frame_rate"])
-			camera.set(3, device["frame_width"])
-			camera.set(4, device["frame_height"])
-		while(mode):
-			# capture frame
-			ret, frame = camera.read()
+        # run prediction only if within predetermined timeframe
+        mode = get_mode()
+        if mode == True:
+            time_keeper = time.time()
+            # load camera settings
+            camera = cv2.VideoCapture(0)
+            camera.set(5, device["frame_rate"])
+            camera.set(3, device["frame_width"])
+            camera.set(4, device["frame_height"])
+        while(mode):
+            # capture frame
+            ret, frame = camera.read()
 
-			# get capture time
-			capture_time = time.time()
+            # get capture time
+            capture_time = time.time()
 
-			# get prediction
-			count, boxes = model.update(frame)
+            # get prediction
+            ##count, boxes = model.update(frame)
+            #model.displayResults(frame, count, boxes)
+            #out.write(frame)
+            #current = current + 1
 
-			# upload predictions if time since last upload is greater than upload interval
-			if capture_time - time_keeper > prediction_interval:
-					time_keeper = time_keeper + prediction_interval
+            # upload predictions if time since last upload is greater than upload interval
+            if capture_time - time_keeper > prediction_interval:
+                    time_keeper = time_keeper + prediction_interval
 
-					# create prediction record
-					capture_time = datetime.fromtimestamp(capture_time).strftime("%Y-%m-%d %H:%M:%S")
-					data = [device_id, latlon, capture_time, count]
+                    # create prediction record
+                    capture_time = datetime.fromtimestamp(capture_time).strftime("%Y-%m-%d %H:%M:%S")
+                    data = [device_id, latlon, capture_time, count]
 
-					# append prediction to backup csv in case upload fails
-					sm.update_log(data)
+                    # append prediction to backup csv in case upload fails
+                    sm.update_log(data)
 
-					# update table
-					dbm.update_table(data)
+                    # update table
+                    dbm.update_table(data)
+                    #FILE_OUTPUT = 'output'+str(file)+'.avi'
+                    #if os.path.isfile(FILE_OUTPUT):
+                    #    os.remove(FILE_OUTPUT)
+                    #out = cv2.VideoWriter(FILE_OUTPUT, fourcc, 20.0, (int(device["frame_width"]), int(device["frame_height"])))
+                    #current = 0
 
-					# TODO method for saving images locally
+                    #clear model every database update
+                    model = countPlastic()
+                    print("clear the model")
+                    # TODO method for saving images locally
 
-			# update mode
-			mode = get_mode()
+            # update mode
+            mode = get_mode()
 
 ######### CLOSE #########
 camera.release()
