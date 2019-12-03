@@ -24,5 +24,3 @@ sudo cp /home/pi/gaia_plastics/app/conf/odbc/odbcinst.ini /etc/
 echo "Setting up WiFi IP address emailing and application to run when RPI powered on..."
 
 sudo sed -i '/^exit 0.*/i sudo python /home/pi/gaia_plastics/email_ip.py\npython3 /home/pi/gaia_plastics/app/code/main.py' /etc/rc.local
-
-echo "Done with software setup"
