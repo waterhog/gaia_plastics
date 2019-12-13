@@ -1,7 +1,7 @@
 {
     "device": {
         "id": "",
-        "latlon_method": "WIFI",
+        "latlon_method": "GPS",
         "latlon": "0,0",
         "location_name": "",
         "frame_rate": 32,
